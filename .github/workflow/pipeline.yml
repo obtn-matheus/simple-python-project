@@ -50,7 +50,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v3
       with:
-        name: simple-python-project
+        name: simple-python-project-artifact
         path: ./artifact
 
     - name: Run Azure Functions Action
