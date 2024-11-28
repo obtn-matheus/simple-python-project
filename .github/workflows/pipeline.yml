@@ -8,6 +8,12 @@ on:
     branches:
       - main
 
+# Env configuration
+env:
+  AZURE_FUNCTIONAPP_NAME: 'senaclab-azure-functionsmatheus'
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
+  PYTHON_VERSION: '3.10'      
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,10 +22,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Python
+      - name: Setup Python ${{ env.PYTHON_VERSION }} Environment
         uses: actions/setup-python@v4
         with:
-          python-version: 3.13.0
+          python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Install dependencies
         run: |
@@ -41,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: simple-python-project-artifact
-          path: dist/
+          path: ./
 
   deploy:
     runs-on: ubuntu-latest
@@ -51,7 +57,7 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: simple-python-project-artifact
-        path: ./dist
+        path: ./artifact
 
     - name: Run Azure Functions Action
       uses: Azure/functions-action@v1
